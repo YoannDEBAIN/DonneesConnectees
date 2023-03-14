@@ -118,6 +118,7 @@ app.get("/URI/:AnnotURI", function(req, res){
 	// var IdURI = req.query.AnnotURI;
 	var IdURI = req.params.AnnotURI;
 	console.log(IdURI);
+	IdURI = "https://"+IdURI;
 	
 	// var ChoixFormat=req.query.FormatAnnotURI;
 	

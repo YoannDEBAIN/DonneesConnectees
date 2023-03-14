@@ -76,6 +76,7 @@
 			function envoiURI(){
 				
 				var AnnotURI = document.getElementById('AnnotURI').value;
+				AnnotURI = AnnotURI.split('/').slice(2).join('/');
 				var FormatAnnotURI = document.getElementById('FormatAnnotURI').value;
 				
 				if (FormatAnnotURI=='json'){
@@ -87,7 +88,7 @@
 
 				var route = "/URI/"+AnnotURI;
 				fetch(route, {method:'GET', 
-							  headers : {'accept' : FormatAnnotURI}
+							  headers : {'accept' : FormatAnnotURI}, mode:"cors", 
 							  });
 			};
 			
