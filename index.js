@@ -6,13 +6,15 @@ const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+var cors = require('cors');
+
 var data={};
 var id=0;
 
 app.use(express.static('html'));
 
 	
-app.post("/annotation", function(req, res){
+app.post("/annotation", cors(), function(req, res){
 	var body = req.body;
 	// console.log(body);
 	data[id]=body;
@@ -31,7 +33,6 @@ app.get("/IdAnnot/:Annot", function(req, res){
 	var Exist=Object.keys(data).includes(IdAnnot);
 	
 	// var ChoixFormat=req.query.FormatIdAnnot;
-	// var ChoixFormat=req.params.FormatIdAnnot;
 	
 	// console.log(req);
 	
@@ -41,7 +42,7 @@ app.get("/IdAnnot/:Annot", function(req, res){
 		// req.headers['accept']= 'text/html';
 	// }
 	// else {
-		// if (ChoixFormat=="Json"){
+		// if (ChoixFormat=="json"){
 			// req.headers['accept']=  'application/json';
 		// }	
 	// }
@@ -50,6 +51,7 @@ app.get("/IdAnnot/:Annot", function(req, res){
 	
 	res.format ({
 		   'text/html': function() {
+			    res.setHeader('Content-Type', 'text/html');
 			    if (Exist){
 					res.setHeader('Content-Type', 'text/html');
 				    res.send("<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'/><title>Titre</title></head><body><div>"+JSON.stringify(data[IdAnnot])+
@@ -61,6 +63,7 @@ app.get("/IdAnnot/:Annot", function(req, res){
 		   },
 
 		   'application/json': function() {
+			    res.setHeader('Content-Type', 'application/json');
 			    if (Exist){
 				    res.send(data[IdAnnot]); 
 			    }
@@ -75,19 +78,20 @@ app.get("/IdAnnot/:Annot", function(req, res){
 
 
 
-app.get("/AllAnnot", function(req, res){
+// app.get("/AllAnnot", function(req, res){
 	
-	res.format ({
-		   'text/html': function() {
-				res.setHeader('Content-Type', 'text/html');
-				res.send("<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'/><title>Titre</title></head><body><div>"+JSON.stringify(data)+
-						"</div></body></html>"); 
-		   },
+	// res.format ({
+		   // 'text/html': function() {
+				// res.setHeader('Content-Type', 'text/html');
+				// res.send("<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'/><title>Titre</title></head><body><div>"+JSON.stringify(data)+
+						// "</div></body></html>"); 
+		   // },
 
-		   'application/json': function() {
-				res.send(data); 
-			}
-	});
+		   // 'application/json': function() {
+			    // res.setHeader('application/json');
+				// res.send(data); 
+			// }
+	// });
 	
 	// var ChoixFormat=req.query.FormatAllAnnot;
 	
@@ -96,73 +100,95 @@ app.get("/AllAnnot", function(req, res){
 		// req.headers['accept']= 'text/html';
 	// }
 	// else {
-		// if (ChoixFormat=="Json"){
+		// if (ChoixFormat=="json"){
 			// req.headers['accept']=  'application/json';
 		// }	
 	// }
 		
 	// res.format ({
 		   // 'text/html': function() {
-			  // res.send(data); 
+			    // res.setHeader('Content-Type', 'text/html');
+				// res.send("<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'/><title>Titre</title></head><body><div>"+JSON.stringify(data)+
+						// "</div></body></html>"); 
 		   // },
 
 		   // 'application/json': function() {
+			  // res.setHeader('application/json');
 			  // res.send(data);
 			// }
 	// });
 	
-});
+// });
 
 
-app.get("/URI/:AnnotURI", function(req, res){
-	// var IdURI = req.query.AnnotURI;
-	var IdURI = req.params.AnnotURI;
+app.get("/URI", function(req, res){
+	var IdURI = req.query.AnnotURI;
+	// var IdURI = req.params.AnnotURI;
 	console.log(IdURI);
-	IdURI = "https://"+IdURI;
 	
-	// var ChoixFormat=req.query.FormatAnnotURI;
+	var ChoixFormat=req.query.FormatAnnotURI;
 	
-	var tabRep=[];
-	
-	for (key in data){
-		console.log(key);
-		if (data[key]["URI"]==IdURI){
-			tabRep.push({"IdAnnotation" : data[key], "Commentaire" : data[key]["Commentaire"]});
-		}
+	if (ChoixFormat=="html"){
+		req.headers['accept']= 'text/html';
+	}
+	else {
+		if (ChoixFormat=="json"){
+			req.headers['accept']=  'application/json';
+		}	
 	}
 	
-	console.log(tabRep);
-	
-	res.format ({
+	if (IdURI=="AllInfo"){
+		res.format ({
 		   'text/html': function() {
 				res.setHeader('Content-Type', 'text/html');
-				res.send("<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'/><title>Titre</title></head><body><div>"+JSON.stringify(tabRep)+
+				res.send("<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'/><title>Titre</title></head><body><div>"+JSON.stringify(data)+
 						"</div></body></html>"); 
 		   },
 
 		   'application/json': function() {
-				res.send(tabRep); 
+			    res.setHeader('Content-Type','application/json');
+				res.send(data); 
 			}
-	});
+		});
+	}else {
 	
-	// if (ChoixFormat=="html"){
-		// req.headers['accept']= 'text/html';
-	// }
-	// else {
-		// if (ChoixFormat=="Json"){
-			// req.headers['accept']=  'application/json';
-		// }	
-	// }
+		var tabRep=[];
 		
-	// res.format ({
-		   // 'text/html': function() {
-			  // res.send(tabRep); 
-		   // },
+		for (key in data){
+			// console.log(key);
+			if (data[key]["URI"]==IdURI){
+				tabRep.push({"IdAnnotation" : key, "Commentaire" : data[key]["Commentaire"]});
+			}
+		}
+		
+		console.log(tabRep);
+		
+		// res.format ({
+			   // 'text/html': function() {
+					// res.setHeader('Content-Type', 'text/html');
+					// res.send("<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'/><title>Titre</title></head><body><div>"+JSON.stringify(tabRep)+
+							// "</div></body></html>"); 
+			   // },
 
-		   // 'application/json': function() {
-			  // res.send(tabRep);
-			// }
-	// });
+			   // 'application/json': function() {
+					// res.send(tabRep); 
+				// }
+		// });
+			
+		res.format ({
+			   'text/html': function() {
+					res.setHeader('Content-Type', 'text/html');
+					res.send("<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'/><title>Titre</title></head><body><div>"+JSON.stringify(tabRep)+
+							"</div></body></html>"); 
+			   },
+
+			   'application/json': function() {
+					res.setHeader('Content-Type','application/json');
+					res.send(tabRep); 
+				}
+		});
+	
+	}
 	
 });
 
