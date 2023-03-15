@@ -27,11 +27,10 @@
 								"Commentaire": document.getElementById('IdCommentaire').value};
 					<!-- console.log(body); -->
 					<!-- var route = "/annotation"; -->
-					var route = "https://projetdonneesconnectees.onrender.com/annotation"
+					var route = "https://projetdonneesconnectees.onrender.com/annotation";
 					fetch(route, {    method:'POST', 
 									  body: JSON.stringify(body) ,
 									  headers:{'Content-Type': 'application/json'}
-									  ,mode:"cors"
 								}).then((res) => res.text()).then((text) => {
 																				document.getElementById('IdURI').value="";
 																				document.getElementById('IdCommentaire').value="";
