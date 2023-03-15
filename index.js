@@ -13,12 +13,12 @@ var id=0;
 
 app.use(express.static('html'));
 
-app.use{(req, res, next)=>{
+app.use((req, res, next)=>{
 	res.header('Acces-Control-Allow-Origin', '*');
 	res.header('Acces-Control-Allow-Methods', 'POST');
 	res.header('Acces-Control-Allow-Headers', 'Content-Type');
-	
-};
+	next();
+});
 
 
 
