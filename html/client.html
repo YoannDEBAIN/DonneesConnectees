@@ -60,7 +60,8 @@
 					FormatIdAnnot='text/'+FormatIdAnnot;
 				}
 
-				var route = "/IdAnnot/"+Annot;
+				<!-- var route = "/IdAnnot/"+Annot; -->
+				var route = "https://projetdonneesconnectees.onrender.com/IdAnnot/"+Annot;
 				fetch(route, {method:'GET', 
 							  headers : {'accept' : FormatIdAnnot}
 							  });
