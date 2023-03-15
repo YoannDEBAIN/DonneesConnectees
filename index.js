@@ -67,7 +67,7 @@ app.get("/IdAnnot/:Annot", function(req, res){
 							"</div></body></html>"); 
 			    }
 			    else {
-				   res.send("aucune annotation n'est associée à cette clé");
+				   res.send("<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'/><title>Titre</title></head><body><p>aucune annotation n'est associée à cette clé</p></body></html>");
 			    }
 		   },
 
@@ -77,7 +77,7 @@ app.get("/IdAnnot/:Annot", function(req, res){
 				    res.send(data[IdAnnot]); 
 			    }
 			    else {
-				   res.send({"aucune annotation n'est associée à cette clé"});
+				   res.send({"erreur" : "aucune annotation n'est associée à cette clé"});
 			    }
 			}
 	});
