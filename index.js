@@ -15,8 +15,8 @@ app.use(express.static('html'));
 
 app.use((req, res, next)=>{
 	res.header('Acces-Control-Allow-Origin', '*');
-	res.header('Acces-Control-Allow-Methods', 'POST');
-	res.header('Acces-Control-Allow-Headers', 'Content-Type');
+	res.header('Acces-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
+	res.header('Acces-Control-Allow-Headers', 'Content-Type, Authorization, Content-length, X-Requested-With');
 	next();
 });
 
