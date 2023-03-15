@@ -13,6 +13,10 @@ var id=0;
 
 app.use(express.static('html'));
 
+app.use(cors({Access-Control-Allow-Origin: *}));
+
+
+
 	
 app.post("/annotation", cors(), function(req, res){
 	var body = req.body;
@@ -68,7 +72,7 @@ app.get("/IdAnnot/:Annot", function(req, res){
 				    res.send(data[IdAnnot]); 
 			    }
 			    else {
-				   res.send("aucune annotation n'est associée à cette clé");
+				   res.send({"aucune annotation n'est associée à cette clé"});
 			    }
 			}
 	});
